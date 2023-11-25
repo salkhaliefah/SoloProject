@@ -27,7 +27,9 @@ public class ExamSystem extends JFrame implements ActionListener
 		
 		
 		buildPanel();
+		
 		add(panel);
+		
 		setVisible(true);
 		
 		
@@ -43,16 +45,16 @@ public class ExamSystem extends JFrame implements ActionListener
 		
 		examTextArea = new JTextArea();
 		examTextArea.setEditable(false);
-		panel.add(examTextArea, BorderLayout.CENTER);
 		
 		
-
-		panel.add(startButton, BorderLayout.SOUTH);
 		startButton.setPreferredSize(new Dimension(120, 40));
 		startButton.setFont(new Font("Arial", Font.PLAIN, 16));
 		
-		optionsPanel = new JPanel(new GridLayout(4,1)); 
+		//placement of panel for Option buttons, Written Questions(TextArea) & the start button that give access to the exam
 		panel.add(optionsPanel, BorderLayout.EAST);
+       panel.add(examTextArea, BorderLayout.CENTER);
+		panel.add(startButton, BorderLayout.SOUTH);
+		
 		optionsPanel.setVisible(false);
 		
 		
@@ -95,25 +97,32 @@ public class ExamSystem extends JFrame implements ActionListener
 		
 		JButton OA = new JButton("A");
 		OA.addActionListener(this:: checkAnswer);
+		optionsPanel.add(OA);
+		
 		JButton OB = new JButton("B");
 		OB.addActionListener(this:: checkAnswer);
+		optionsPanel.add(OB);
+		
 		JButton OC = new JButton("C");
 		OC.addActionListener(this:: checkAnswer);
+		optionsPanel.add(OC);
+		
 		JButton OD = new JButton("D");
 		OD.addActionListener(this:: checkAnswer);
-		
-		
-		
-		optionsPanel.add(OA);
-		optionsPanel.add(OB);
-		optionsPanel.add(OC);
 		optionsPanel.add(OD);
+		
+		
+		
+//		optionsPanel.add(OA);
+//		optionsPanel.add(OB);
+//		optionsPanel.add(OC);
+//		optionsPanel.add(OD);
 		
 
 		
 		
 		
-		
+		//showing panel for multiple-choice options 
 		optionsPanel.setVisible(true);
 		validate();
 		
