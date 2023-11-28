@@ -9,13 +9,14 @@ import java.awt.event.ActionListener;
 
 public class ExamSystem extends JFrame implements ActionListener
 {
-	
+	//JPanel for elements 
 	private JPanel panel;
 	JButton startButton;
 	private JTextArea examTextArea;
 	
 	private JPanel optionsPanel;
 	private int currentQuestion = 1;
+	Color textColor = Color.white;
 	
 
 	
@@ -42,13 +43,17 @@ public class ExamSystem extends JFrame implements ActionListener
 		startButton = new JButton("Start Exam");
 		startButton.addActionListener(this);
 		optionsPanel = new JPanel(new GridLayout(4,1)); 
+		optionsPanel.setBackground(Color.lightGray);
 		
 		examTextArea = new JTextArea();
 		examTextArea.setEditable(false);
+		examTextArea.setForeground(textColor);
 		
 		
 		startButton.setPreferredSize(new Dimension(120, 40));
 		startButton.setFont(new Font("Arial", Font.PLAIN, 16));
+		//chnaging widget color 
+		panel.setBackground(Color.LIGHT_GRAY);
 		
 		//placement of panel for Option buttons, Written Questions(TextArea) & the start button that give access to the exam
 		panel.add(optionsPanel, BorderLayout.EAST);
@@ -68,11 +73,15 @@ public class ExamSystem extends JFrame implements ActionListener
 		showOptions();
 	}
 	
+	//displaying question on window, using if, if question is answered correct 
+	//the next question will apear if question is answered wrong it will give a statment that tells the user to try again
 	private void displayQuestion() {
 		
 		
 		if(currentQuestion == 1) {
 			examTextArea.setFont(new Font("Arial", Font.ITALIC, 25));
+			//Changing color of the window background 
+			examTextArea.setBackground(Color.lightGray);
 			examTextArea.setText("LO 1: Which of the following variable names use the correct style?\n\n " + "A. TotalAmount\n "+ "B. totalAmount\n" +
 				 "C. total_Amount\n"+
 				 "D. totalamount\n");
@@ -111,12 +120,6 @@ public class ExamSystem extends JFrame implements ActionListener
 		OD.addActionListener(this:: checkAnswer);
 		optionsPanel.add(OD);
 		
-		
-		
-//		optionsPanel.add(OA);
-//		optionsPanel.add(OB);
-//		optionsPanel.add(OC);
-//		optionsPanel.add(OD);
 		
 
 		
