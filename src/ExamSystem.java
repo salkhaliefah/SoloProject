@@ -11,34 +11,40 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-
-class Question{
+/*
+ * Question class represents multiple-choice question
+ */
+class Question
+{
+	// Private variables to store question text, options, and the correct option
 	private String text;
 	private String[] options;
 	private String correctOption;
-	
+
+	// Constructor to initialize the Question object with text, options, and
+	// correct option
 	public Question(String text, String[] options, String correctOption)
 	{
 		this.text = text;
 		this.options = options;
 		this.correctOption = correctOption;
 	}
-	
+
+	// Getter method to get the question text
 	public String getText()
 	{
 		return text;
 	}
-	
-	public String[] getOptions() 
+
+	// Getter method to get the array of options for question
+	public String[] getOptions()
 	{
 		return options;
-		
+
 	}
-	
+
+	// Getter method to get the correct option for question
 	public String getCorrectOption()
 	{
 		return correctOption;
@@ -50,6 +56,7 @@ class Question{
  */
 public class ExamSystem extends JFrame implements ActionListener
 {
+	private static final long serialVersionUID = 1L;
 	// fields for GUI Compoenets and are accessed by multiple methods
 	// therefore making them private is best
 	private JPanel panel;
@@ -59,7 +66,7 @@ public class ExamSystem extends JFrame implements ActionListener
 	private JPanel optionsPanel;
 	private int currentQuestion = 1;
 	Color textColor = Color.BLACK;
-	
+
 	private Question[] questions;
 
 	/**
@@ -82,25 +89,26 @@ public class ExamSystem extends JFrame implements ActionListener
 
 		// shows window
 		setVisible(true);
-		
+
 		initializeQuestions();
-        
+
 	}
-	
+
 	/**
-	 *  calling initializeQuestion class where all questions are stored using ArrayList 
+	 * Initializes the array of questions by calling a method from the
+	 * QuestionInitializer class
 	 */
-	private void initializeQuestions() 
+	private void initializeQuestions()
 	{
 		questions = QuestionInitializer.initializeQuestions();
 	}
-	
+
 	/**
 	 * BuildPanel method initializes arranges GUI components
 	 */
 	private void buildPanel()
 	{
-		// creating new Jpanel to add bottonPanel,examTextArea, optionsPanel
+		// Creating new Jpanel to add bottonPanel,examTextArea, optionsPanel
 		panel = new JPanel(new BorderLayout());
 		// changing panel background
 		panel.setBackground(Color.LIGHT_GRAY);
@@ -131,48 +139,65 @@ public class ExamSystem extends JFrame implements ActionListener
 		panel.add(examTextArea, BorderLayout.CENTER);
 		panel.add(startButton, BorderLayout.SOUTH);
 
-		// display of optionsPanel
+		// Starts off by hiding optionsPanel
 		optionsPanel.setVisible(false);
 
 	}
 
 	/**
-	 * StartExam method resets the current question, displays the
-	 * first question and shows options what start button is clicked
+	 * Resets the current question to the first question, displays the
+	 * frist question, and shows the optins when the "Start Exam" button is
+	 * clicked
 	 */
 	private void startExam()
 	{
+		// reset the current question counter to the frist question
 		currentQuestion = 1;
+		// calls displayQuestion method
 		displayQuestion();
+		// calls showOptions method
 		showOptions();
 	}
 
 	/**
-	 * DisplayQuestion method shows questions on window, using if, if
-	 * currentQuestion condtion is true the if/ else
-	 * block will provide some text.
+	 * Displays the current question and its option on the exam window
+	 * Sets the font, background color, and text of examTextArea to
+	 * present the question and its options
 	 */
 
-	private void displayQuestion() {
+	private void displayQuestion()
+	{
+		// Get the current question object
 		Question currentQuestionObj = questions[currentQuestion - 1];
+
+		// Setting font, Background color, and text for examTextArea
 		examTextArea.setFont(new Font("Arial", Font.ITALIC, 25));
 		examTextArea.setBackground(Color.lightGray);
-		examTextArea.setText(currentQuestionObj.getText() + "\n\n" +
-		"A." + currentQuestionObj.getOptions()[0] + "\n\n"	+
-		"B." + currentQuestionObj.getOptions()[1] + "\n\n"	+
-		"C." + currentQuestionObj.getOptions()[2] + "\n\n"	+
-		"D." + currentQuestionObj.getOptions()[3]);
+
+		examTextArea.setText(currentQuestionObj.getText() + "\n\n" + "A."
+				+ currentQuestionObj.getOptions()[0] + "\n\n" + "B."
+				+ currentQuestionObj.getOptions()[1] + "\n\n" + "C."
+				+ currentQuestionObj.getOptions()[2] + "\n\n" + "D."
+				+ currentQuestionObj.getOptions()[3]);
 	}
-		
+
 	/**
-	 * ShowOptions method sets up option buttons for multiple-choice questions
+	 * 
+	 * Checks the selected option answer and compares it with the
+	 * correct answer for current question
+	 * If the answer clicked is correct, it will increment the current question
+	 * counter
+	 * If all questions are correct, a congratulations message is displayed
+	 * 
+	 * @param e The ActionEvent triggered by the button click
 	 */
 	private void checkAnswer(ActionEvent e)
 	{
 		// Extract the text of the button pressed (the selected option)
 		String selectedOption = ((JButton) e.getSource()).getText();
 		// Get the correct option
-		String correctOption = questions[currentQuestion - 1].getCorrectOption();
+		String correctOption = questions[currentQuestion - 1]
+				.getCorrectOption();
 
 		// Check if the selected option is correct
 		if (selectedOption.equals(correctOption))
@@ -212,18 +237,24 @@ public class ExamSystem extends JFrame implements ActionListener
 
 	}
 
+	/*
+	 * ShowOptions displays multiple-choice options in the GUI
+	 */
+
 	private void showOptions()
 	{
-		//Clears all components from options panel before applying any new ones
-		//ensureing that a new set of button is added each time "showOptions" is clicked
+		// Clears all components from options panel before applying any new ones
+		// ensureing that a new set of button is added each time "showOptions"
+		// is clicked
 		optionsPanel.removeAll();
-        //creating a new JButton "A" and assignes it tovariable OA
+		// creating a new JButton "A" and assignes it tovariable OA
 		JButton OA = new JButton("A");
-		//registers an actions listener for button
+		// registers an actions listener for button
 		OA.addActionListener(this::checkAnswer);
-		//adds OA button to the optionsPanel
+		// adds OA button to the optionsPanel
 		optionsPanel.add(OA);
 
+		// Same process for button B, C and D
 		JButton OB = new JButton("B");
 		OB.addActionListener(this::checkAnswer);
 		optionsPanel.add(OB);
@@ -238,13 +269,10 @@ public class ExamSystem extends JFrame implements ActionListener
 
 		// showing panel for multiple-choice options
 		optionsPanel.setVisible(true);
-		//making sure changes in the GUI take place 
+		// making sure changes in the GUI take place
 		validate();
 
 	}
-
-
-
 
 	/**
 	 * ActionListener implementation for handling button clicks
@@ -256,7 +284,7 @@ public class ExamSystem extends JFrame implements ActionListener
 		// checks if action was triggered by clicking the startButton
 		if (e.getSource() == startButton)
 		{
-			// startExam method
+			// calls the startExam method when the startButton is clicked
 			startExam();
 		}
 	}
@@ -269,21 +297,33 @@ public class ExamSystem extends JFrame implements ActionListener
 	{
 		// Thread that handles GUI events
 		SwingUtilities.invokeLater(() -> {
-			try {
+			try
+			{
+				// Creates an instance of the ExamSystem class
 				new ExamSystem();
-			}catch (Exception e) {
+			}
+			catch (Exception e)
+			{
+				// Handles any exceptions that may occur when application starts
 				handleException(e);
 			}
-			
+
 		});
-		
-		
 
 	}
-	
-	
-	private static void handleException(Exception e) {
-		JOptionPane.showMessageDialog(null,  "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+	/**
+	 * Handles exceptions by displaying an error message and printing the stack
+	 * trace
+	 * 
+	 * @param e The exception to be handled
+	 */
+
+	private static void handleException(Exception e)
+	{
+		JOptionPane.showMessageDialog(null,
+				"An error occurred: " + e.getMessage(), "Error",
+				JOptionPane.ERROR_MESSAGE);
 		e.printStackTrace();
 	}
 }
