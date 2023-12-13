@@ -11,6 +11,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+
+class Question{
+	private String text;
+	private String[] options;
+	private String correctOption;
+	
+	public Question(String text, String[] options, String correctOption)
+	{
+		this.text = text;
+		this.options = options;
+		this.correctOption = correctOption;
+	}
+	
+	public String getText()
+	{
+		return text;
+	}
+	
+	public String[] getOptions() 
+	{
+		return options;
+		
+	}
+	
+	public String getCorrectOption()
+	{
+		return correctOption;
+	}
+}
 
 /**
  * ExamSystem class represents a GUI application for an axam system.
@@ -26,6 +59,8 @@ public class ExamSystem extends JFrame implements ActionListener
 	private JPanel optionsPanel;
 	private int currentQuestion = 1;
 	Color textColor = Color.BLACK;
+	
+	private Question[] questions;
 
 	/**
 	 * Constructor for ExamSystem
@@ -36,7 +71,7 @@ public class ExamSystem extends JFrame implements ActionListener
 		// window title
 		setTitle("Exam System");
 		// window size
-		setSize(1000, 700);
+		setSize(1050, 750);
 		// closes window when exit button is clicked
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -47,9 +82,71 @@ public class ExamSystem extends JFrame implements ActionListener
 
 		// shows window
 		setVisible(true);
+		
+		initializeQuestions();
 
 	}
-
+	
+	private void initializeQuestions() 
+	{
+		List<Question> questionList = new ArrayList<>(Arrays.asList(
+				new Question("LO 1: Which of the following variable names use the correct style?" ,
+						new String[] { "TotalAmount" , "totalAmount", "total_Amount", "totalamount"}, "B" ),
+	
+						new Question("LO 2: Given: int[] a = {1, 2, 3}; What will be after; a[1] = 5?",
+								new String[] { "{1, 5, 2, 3}"  , "{5, 2, 3} ", "{1, 5, 3}", "{5, 1, 2, 3} "}, "C" ),
+	
+						new Question("LO3: Which of the following is correct?\n"
+								+ "public class Student\n"
+								+ "{ \n"
+								+ "String name;\n"
+								+ " Address homeAddress;\n"
+								+ "}\n"
+								+ "public class Address\n"
+								+ "{\n"
+								+ "  int number;\n"
+								+ "  String streetName;\n"
+								+ "  String cityName;\n"
+								+ "  String stateName;\n"
+								+ "  int zipCode;\n"
+								+ "}",
+								new String[]{ "Student HAS-A Address", "Student IS-A Address","Address HAS-A Student","Address IS-A Student"}, "A" ),
+						
+						new Question("LO 4:What is a base class in inheritance?",
+								new String[] { "Child class"  , "Parents class\n"
+										+ " ", "Derived class \n"
+												+ "", "Subclass\n"
+														+ " "}, "B" ),
+				
+						new Question("LO 5: What is polymorphism in java? \n",
+								new String[] { "Multiple inheritance", "Code duplication ", "Code flexibility", "Data hiding "}, "C" ),
+						
+			
+						new Question("LO6: What is the primary purpose of a stack data structure?",
+								new String[] { "To store date in sorted order "  , "To provide quick access to the middle element ", "To manage data in a last-in, frist-out(LIFO)manner.", "To facilitate random access to elements "}, "C" ),
+				
+						new Question("LO7: What does the term “polymorphism” mean in object-oriented design?",
+								new String[] { "The ability of a classroom inherit from multiple classes "  , "The ability to create objects of different types  ", "The ability to write methods with the same name but different implementations.", "The ability to hide the details of an object’s implementation "}, "C" ),
+	
+						new Question("LO8: What does GUI stand for?",
+								new String[] { "A visual component on the screen "  , " An action or occurrence detected by the program  ", " A graphical user interface ", "A type of layout manager\n"}, "C" ),
+	
+						new Question("LO9: What is an exception in Java?",
+								new String[] { "A regular program output "  , "An error that occurs during program execution  ", " A common programming data type", "A standard data type"}, "B" ),
+	
+						new Question("LO10: Which class in java is used for writing to a file?",
+								new String[] { "FileWriter"  , "FileReader ", "BufferedReader",  "PrintWriter"}, "A" ),
+	
+						new Question("LO11: What is the purpose of the base case in recursion?",
+								new String[] { "It’s just a placeholder\n"
+										+ ""  , " It helps with iteration ", "Its optional in recursion", "it stops recursion \n"
+												+ " "}, "D" )
+	));
+				
+				questions = questionList.toArray(new Question[0]);
+	}
+				
+           
 	/**
 	 * BuildPanel method initializes arranges GUI components
 	 */
@@ -77,7 +174,7 @@ public class ExamSystem extends JFrame implements ActionListener
 		examTextArea.setEditable(false);
 
 		// setting dimensions and font for start button
-		startButton.setPreferredSize(new Dimension(0, 70));
+		startButton.setPreferredSize(new Dimension(0, 30));
 		startButton.setFont(new Font("Arial", Font.PLAIN, 20));
 
 		// placement of panel for Option buttons, examTextArea & the start
@@ -108,175 +205,26 @@ public class ExamSystem extends JFrame implements ActionListener
 	 * block will provide some text.
 	 */
 
-	private void displayQuestion()
-	{
-
-		// if current question is 1 then program is dealing with first question
-		if (currentQuestion == 1)
-		{
-			examTextArea.setFont(new Font("Arial", Font.ITALIC, 25));
-			// Changing color of the window background
-			examTextArea.setBackground(Color.lightGray);
-			// setting text for question 1
-			examTextArea.setText(
-					"LO 1: Which of the following variable names use the correct style?\n\n"
-							+
-
-							"A. TotalAmount\n " + "B. totalAmount\n"
-							+ "C. total_Amount\n" + "D. totalamount\n");
-
-			// block is triggered when currentQuestion is 2 , block contains
-			// text for question 2
-		}
-		else if (currentQuestion == 2)
-		{
-			examTextArea.setText(
-					"LO2: Given: int[] a = {1, 2, 3}; What will be after; a[1] = 5?\n\n"
-							+
-
-							"A. {1, 5, 2, 3} \n" + "B. {5, 2, 3} \n"
-							+ "C. {1, 5, 3} \n" + "D. {5, 1, 2, 3} \n" + "");
-
-		}
-		else if (currentQuestion == 3)
-		{
-			examTextArea.setText(" LO3: Which of the following is correct?\n\n"
-					+ "public class Student\n" + "{ \n" + "String name;\n"
-					+ " Address homeAddress;\n" + "}\n\n"
-					+ "public class Address\n" + "{\n" + "  int number;\n"
-					+ "  String streetName;\n" + "  String cityName;\n"
-					+ "  String stateName;\n" + "  int zipCode;\n" + "}\n" +
-
-					"A. Student HAS-A Address \n" + "B. Student IS-A Address \n"
-					+ "C. Address HAS-A Student \n"
-					+ "D. Address IS-A Student \n" + "");
-
-		}
-		else if (currentQuestion == 4)
-		{
-			examTextArea
-					.setText("LO4: What is a base class in inheritance?\n\n" +
-
-							"A. Child class\n" + "B. Parents class\n"
-							+ "C. Derived class \n" + "D. Subclass\n" + "");
-
-		}
-		else if (currentQuestion == 5)
-		{
-			examTextArea.setText("LO5: What is polymorphism in java \n\n" +
-
-					"A. Multiple inheritance\n" + "B. Code duplication \n"
-					+ "C. Code flexibility\n" + "D. Data hiding \n" + " ");
-
-		}
-		else if (currentQuestion == 6)
-		{
-			examTextArea.setText(
-					"LO6: What is the primary purpose of a stack data structure?\n\n"
-							+
-
-							"A. To store date in sorted order \n"
-							+ "B. To provide quick access to the middle element\n"
-							+ "C. To manage data in a last-in, frist-out(LIFO)manner.\n"
-							+ "D. To facilitate random access to elements\n"
-							+ " ");
-
-		}
-		else if (currentQuestion == 7)
-		{
-
-			examTextArea.setText(
-					"LO7: What does the term “polymorphism” mean in object-oriented design? \n\n"
-							+
-
-							"A. The ability of a classroom inherit from multiple classes\n"
-							+ "B. The ability to create objects of different types \n"
-							+ "C. The ability to write methods with the same name but different implementations. \n"
-							+ "D. The ability to hide the details of an object’s implementation\n"
-							+ " ");
-
-		}
-		else if (currentQuestion == 8)
-		{
-			examTextArea.setText("LO8: What does GUI stand for?\n\n" +
-
-					"A. A visual component on the screen \n"
-					+ "B. An action or occurrence detected by the program \n"
-					+ "C. A graphical user interface \n"
-					+ "D. A type of layout manager\n" + " ");
-
-		}
-		else if (currentQuestion == 9)
-		{
-			examTextArea.setText("LO9: What is an exception in Java?\n\n" +
-
-					"A. A regular program output \n"
-					+ "B. An error that occurs during program execution \n"
-					+ "C. A common programming data type \n"
-					+ "D. A standard data type \n" + " ");
-
-		}
-		else if (currentQuestion == 10)
-		{
-			examTextArea.setText(
-					"LO10: Which class in java is used for writing to a file?\n\n"
-							+
-
-							"A. FileWriter\n" + "B. FileReader\n"
-							+ "C.BufferedReader\n" + "D. PrintWriter\n" + "");
-		}
-		else if (currentQuestion == 11)
-		{
-			examTextArea.setText(
-					"LO11: What is the purpose of the base case in recursion?\n\n"
-							+ "A. It’s just a placeholder\n"
-							+ "B. It helps with iteration\n"
-							+ "C. Its optional in recursion\n"
-							+ "D. it stops recursion \n" + "");
-		}
-
+	private void displayQuestion() {
+		Question currentQuestionObj = questions[currentQuestion - 1];
+		examTextArea.setFont(new Font("Arial", Font.ITALIC, 25));
+		examTextArea.setBackground(Color.lightGray);
+		examTextArea.setText(currentQuestionObj.getText() + "\n\n" +
+		"A." + currentQuestionObj.getOptions()[0] + "\n\n"	+
+		"B." + currentQuestionObj.getOptions()[1] + "\n\n"	+
+		"C." + currentQuestionObj.getOptions()[2] + "\n\n"	+
+		"D." + currentQuestionObj.getOptions()[3]);
 	}
-
+		
 	/**
 	 * ShowOptions method sets up option buttons for multiple-choice questions
 	 */
-
-	private void showOptions()
-	{
-		optionsPanel.removeAll();
-
-		JButton OA = new JButton("A");
-		OA.addActionListener(this::checkAnswer);
-		optionsPanel.add(OA);
-
-		JButton OB = new JButton("B");
-		OB.addActionListener(this::checkAnswer);
-		optionsPanel.add(OB);
-
-		JButton OC = new JButton("C");
-		OC.addActionListener(this::checkAnswer);
-		optionsPanel.add(OC);
-
-		JButton OD = new JButton("D");
-		OD.addActionListener(this::checkAnswer);
-		optionsPanel.add(OD);
-
-		// showing panel for multiple-choice options
-		optionsPanel.setVisible(true);
-		validate();
-
-	}
-
-	/**
-	 * CheckAnswer method if the selected option is correct
-	 */
-
 	private void checkAnswer(ActionEvent e)
 	{
 		// Extract the text of the button pressed (the selected option)
 		String selectedOption = ((JButton) e.getSource()).getText();
 		// Get the correct option
-		String correctOption = getCorrectOption();
+		String correctOption = questions[currentQuestion - 1].getCorrectOption();
 
 		// Check if the selected option is correct
 		if (selectedOption.equals(correctOption))
@@ -285,7 +233,7 @@ public class ExamSystem extends JFrame implements ActionListener
 			currentQuestion++;
 
 			// check if there are more question to display
-			if (currentQuestion <= 11)
+			if (currentQuestion <= questions.length)
 			{
 				// Display the next question
 				displayQuestion();
@@ -316,63 +264,39 @@ public class ExamSystem extends JFrame implements ActionListener
 
 	}
 
-	/**
-	 * GetCorrectOption method returns the correct option for the current
-	 * question
-	 */
-
-	private String getCorrectOption()
+	private void showOptions()
 	{
-		// if current question is 1, it will return correct option 'B'
-		if (currentQuestion == 1)
-		{
-			return "B";
-			// if current question is not 1, it will check it its 2 and returns
-			// 'C'
-		}
-		else if (currentQuestion == 2)
-		{
-			return "C";
-		}
-		else if (currentQuestion == 3)
-		{
-			return "A";
-		}
-		else if (currentQuestion == 4)
-		{
-			return "B";
-		}
-		else if (currentQuestion == 5)
-		{
-			return "C";
-		}
-		else if (currentQuestion == 6)
-		{
-			return "C";
-		}
-		else if (currentQuestion == 7)
-		{
-			return "C";
-		}
-		else if (currentQuestion == 8)
-		{
-			return "C";
-		}
-		else if (currentQuestion == 9)
-		{
-			return "B";
-		}
-		else if (currentQuestion == 10)
-		{
-			return "A";
-		}
-		else if (currentQuestion == 11)
-		{
-			return "D";
-		}
-		// if question is not 1-11 it will return an empty string
-		return "";
+		//Clears all components from options panel before applying any new ones
+		//ensureing that a new set of button is added each time "showOptions" is clicked
+		optionsPanel.removeAll();
+        //creating a new JButton "A" and assignes it tovariable OA
+		JButton OA = new JButton("A");
+		//registers an actions listener for button
+		OA.addActionListener(this::checkAnswer);
+		//adds OA button to the optionsPanel
+		optionsPanel.add(OA);
+
+		JButton OB = new JButton("B");
+		OB.addActionListener(this::checkAnswer);
+		optionsPanel.add(OB);
+
+		JButton OC = new JButton("C");
+		OC.addActionListener(this::checkAnswer);
+		optionsPanel.add(OC);
+
+		JButton OD = new JButton("D");
+		OD.addActionListener(this::checkAnswer);
+		optionsPanel.add(OD);
+
+		// showing panel for multiple-choice options
+		optionsPanel.setVisible(true);
+		//making sure changes in the GUI take place 
+		validate();
+
 	}
+
+
+
 
 	/**
 	 * ActionListener implementation for handling button clicks
@@ -397,8 +321,21 @@ public class ExamSystem extends JFrame implements ActionListener
 	{
 		// Thread that handles GUI events
 		SwingUtilities.invokeLater(() -> {
-			new ExamSystem();
+			try {
+				new ExamSystem();
+			}catch (Exception e) {
+				handleException(e);
+			}
+			
 		});
+		
+		
 
+	}
+	
+	
+	private static void handleException(Exception e) {
+		JOptionPane.showMessageDialog(null,  "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+		e.printStackTrace();
 	}
 }
